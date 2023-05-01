@@ -1,0 +1,34 @@
+services:
+  web:
+    build: ./web
+    ports:
+      - "3000:3000"
+    command: yarn dev
+    environment:
+      NEXT_PUBLIC_API_URL: api:8000
+    volumes:
+      - ./web:/app
+
+  api:
+    build: ./api
+    ports:
+      - "8000:8000"
+    command: air
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_HOST: database
+    depends_on:
+      - database
+    volumes:
+      - ./api:/app
+
+  database:
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
