@@ -2,3 +2,4 @@ node_modules
 tmp
 next.config.js
 yarn.lock
+.next
