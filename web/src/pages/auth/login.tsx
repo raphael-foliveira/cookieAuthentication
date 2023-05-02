@@ -1,10 +1,18 @@
+import { useRouter } from "next/router";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
+import styles from "./auth.module.css";
+
+interface LoginFormData {
+  username: string;
+  password: string;
+}
 
 export default function Login() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LoginFormData>({
     username: "",
     password: "",
   });
+  const router = useRouter();
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -17,27 +25,32 @@ export default function Login() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
       credentials: "include",
-    })
-      .then((response) => {
-        console.log(response.status);
-        return response.json();
-      })
-      .then(console.log);
+    }).then((response) => {
+      console.log(response.status);
+      if (response.status === 200) {
+        router.push("/auth/get-user");
+      }
+      return response.json();
+    });
   };
 
   return (
     <>
       <h1>Login</h1>
       <form action="" onSubmit={handleSubmit}>
-        <label htmlFor="username">
-          Username
-          <input type="text" name="username" onChange={handleChange} />
-        </label>
-        <label htmlFor="password">
-          Password
-          <input type="password" name="password" onChange={handleChange} />
-        </label>
-        <button>Submit</button>
+        <div className={styles.formContainer}>
+          <p>
+            <label htmlFor="username">Username</label>
+            <input type="text" name="username" onChange={handleChange} />
+          </p>
+          <p>
+            <label htmlFor="password">Password</label>
+            <input type="password" name="password" onChange={handleChange} />
+          </p>
+          <p>
+            <button>Submit</button>
+          </p>
+        </div>
       </form>
     </>
   );

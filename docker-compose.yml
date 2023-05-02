@@ -3,7 +3,6 @@ services:
     build: ./web
     ports:
       - "3000:3000"
-    command: yarn dev
     environment:
       NEXT_PUBLIC_API_URL: api:8000
     volumes:
@@ -13,12 +12,12 @@ services:
     build: ./api
     ports:
       - "8000:8000"
-    command: air
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
       POSTGRES_HOST: database
+      POSTGRES_PORT: 5432
     depends_on:
       - database
     volumes:

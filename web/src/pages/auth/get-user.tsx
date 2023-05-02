@@ -1,5 +1,4 @@
-import { GetServerSideProps } from "next";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function GetUser() {
   const [user, setUser] = useState({
@@ -11,7 +10,11 @@ export default function GetUser() {
     const fetchData = async () => {
       const response = await fetch(`http://localhost:8000/user`, {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: document.cookie,
+        },
+        credentials: "include",
       });
       const data = await response.json();
       setUser(data);

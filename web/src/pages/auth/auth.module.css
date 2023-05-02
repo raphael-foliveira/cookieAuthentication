@@ -1,0 +1,14 @@
+.formContainer label {
+  margin-right: 10px;
+  width: 50%;
+  text-align: end;
+}
+
+.formContainer p {
+  width: 100%;
+  text-align: center;
+}
+
+.formContainer input {
+  width: 20%;
+}

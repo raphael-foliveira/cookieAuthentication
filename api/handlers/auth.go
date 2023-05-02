@@ -58,15 +58,12 @@ func Login(c *fiber.Ctx) error {
 			"message": "Invalid password",
 		})
 	}
-
 	jwt, err := authorization.GenerateToken(user)
-
 	c.Cookie(&fiber.Cookie{
 		Name:     "auth",
 		Value:    jwt,
 		Expires:  time.Now().Add(24 * time.Hour),
-		SameSite: "None",
-		Secure:   false,
+		HTTPOnly: true,
 	})
 	return c.Status(200).JSON(fiber.Map{
 		"message": "Login successful",
@@ -81,6 +78,12 @@ func GetUser(c *fiber.Ctx) error {
 			"message": "Unauthorized",
 		})
 	}
+
+	c.Cookie(&fiber.Cookie{
+		Name:     "User-Logged-in",
+		Value:    "true",
+		SameSite: "Lax",
+	})
 
 	jwtPayload, err := authorization.ValidateToken(userCookie)
 	if err != nil {

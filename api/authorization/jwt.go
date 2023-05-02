@@ -28,7 +28,6 @@ func GenerateToken(user models.User) (string, error) {
 			ID:        user.Id,
 		},
 	}
-
 	newToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return newToken.SignedString(jwtKey)
 }
