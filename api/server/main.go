@@ -2,22 +2,13 @@ package server
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/raphael-foliveira/cookieAuthentication/api/database"
-	"github.com/raphael-foliveira/cookieAuthentication/api/handlers"
+	"github.com/raphael-foliveira/cookieAuthentication/api/routes"
 )
 
 func Start() {
-	database.Start()
-
+	database.Connect()
 	app := fiber.New()
-	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:3000",
-		AllowCredentials: true,
-	}))
-	app.Post("/register", handlers.Register)
-	app.Post("/login", handlers.Login)
-	app.Get("/user", handlers.GetUser)
-
+	routes.GetAll(app)
 	app.Listen(":8000")
 }

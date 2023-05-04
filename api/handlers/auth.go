@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/raphael-foliveira/cookieAuthentication/api/authorization"
+	"github.com/raphael-foliveira/cookieAuthentication/api/auth"
 	"github.com/raphael-foliveira/cookieAuthentication/api/models"
 )
 
@@ -58,10 +58,15 @@ func Login(c *fiber.Ctx) error {
 			"message": "Invalid password",
 		})
 	}
-	jwt, err := authorization.GenerateToken(user)
+	sessionToken, err := auth.RenewSessionToken(user.Id)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Could not create session token",
+		})
+	}
 	c.Cookie(&fiber.Cookie{
 		Name:     "auth",
-		Value:    jwt,
+		Value:    sessionToken.Token,
 		Expires:  time.Now().Add(24 * time.Hour),
 		HTTPOnly: true,
 	})
@@ -78,19 +83,17 @@ func GetUser(c *fiber.Ctx) error {
 			"message": "Unauthorized",
 		})
 	}
-
 	c.Cookie(&fiber.Cookie{
 		Name:     "User-Logged-in",
 		Value:    "true",
 		SameSite: "Lax",
 	})
-
-	jwtPayload, err := authorization.ValidateToken(userCookie)
+	user, err := models.FindUserBySessionToken(userCookie)
 	if err != nil {
 		fmt.Println(err)
-		return c.Status(500).JSON(fiber.Map{
-			"message": "Error parsing cookies",
+		return c.Status(404).JSON(fiber.Map{
+			"error": "User not found",
 		})
 	}
-	return c.Status(200).JSON(jwtPayload)
+	return c.Status(200).JSON(user)
 }

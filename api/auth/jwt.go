@@ -1,6 +1,7 @@
-package authorization
+package auth
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -25,7 +26,7 @@ func GenerateToken(user models.User) (string, error) {
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			Issuer:    "authorization-server",
 			Subject:   user.Username,
-			ID:        user.Id,
+			ID:        strconv.Itoa(user.Id),
 		},
 	}
 	newToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

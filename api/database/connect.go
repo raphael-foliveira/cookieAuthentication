@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 var Db *sql.DB
 
-func Start() {
+func Connect() {
+	godotenv.Load()
 	var err error
 	connStr := fmt.Sprintf(
 		"host=%s port=%s user=%s "+
