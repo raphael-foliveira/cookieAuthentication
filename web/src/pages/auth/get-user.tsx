@@ -1,32 +1,27 @@
 import { useEffect, useState } from "react";
 
+interface UserData {
+  username: string;
+  email: string;
+}
+
 export default function GetUser() {
-  const [user, setUser] = useState({
-    username: "",
-    email: "",
-  });
+  const [user, setUser] = useState<UserData>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`http://localhost:8000/user`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: document.cookie,
-        },
-        credentials: "include",
-      });
-      const data = await response.json();
-      setUser(data);
-    };
-    fetchData();
+    fetch(process.env.NEXT_PUBLIC_API_URL + "/user", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => setUser(data));
   }, []);
 
   return (
     <>
       <h1>User</h1>
-      <h3>Username: {user.username}</h3>
-      <h3>Email: {user.email}</h3>
+      <h3>Username: {user && user.username}</h3>
+      <h3>Email: {user && user.email}</h3>
     </>
   );
 }

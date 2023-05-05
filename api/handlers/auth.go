@@ -6,7 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/raphael-foliveira/cookieAuthentication/api/auth"
-	"github.com/raphael-foliveira/cookieAuthentication/api/models"
+	"github.com/raphael-foliveira/cookieAuthentication/api/database"
 )
 
 type UserCreate struct {
@@ -28,7 +28,7 @@ func Register(c *fiber.Ctx) error {
 			"message": "Invalid Data",
 		})
 	}
-	newUser, err := models.CreateUser(userCreate.Username, userCreate.Password, userCreate.Email)
+	newUser, err := database.CreateUser(userCreate.Username, userCreate.Password, userCreate.Email)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Could not create user",
@@ -47,7 +47,7 @@ func Login(c *fiber.Ctx) error {
 			"message": "Invalid user credentials",
 		})
 	}
-	user, err := models.FindUserByUsername(userLoginData.Username)
+	user, err := database.FindUserByUsername(userLoginData.Username)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Invalid username",
@@ -88,7 +88,7 @@ func GetUser(c *fiber.Ctx) error {
 		Value:    "true",
 		SameSite: "Lax",
 	})
-	user, err := models.FindUserBySessionToken(userCookie)
+	user, err := database.FindUserBySessionToken(userCookie)
 	if err != nil {
 		fmt.Println(err)
 		return c.Status(404).JSON(fiber.Map{

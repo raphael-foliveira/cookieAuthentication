@@ -23,7 +23,7 @@ export default function Register() {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8000/register", {
+    fetch(process.env.NEXT_PUBLIC_API_URL + "/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
@@ -42,21 +42,22 @@ export default function Register() {
       <h1>Register</h1>
       <form action="" onSubmit={handleSubmit}>
         <div className={styles.formContainer}>
-          <label htmlFor="email">
-            <p>Email</p>
+          <div className={styles.formElement}>
+            <label htmlFor="email">Email</label>
             <input type="text" name="email" onChange={handleChange} />
-          </label>
-          <label htmlFor="username">
-            <p>Username</p>
+          </div>
+          <div className={styles.formElement}>
+            <label htmlFor="username">Username</label>
             <input type="text" name="username" onChange={handleChange} />
-          </label>
-          <label htmlFor="password">
-            <p>Password</p>
+          </div>
+          <div className={styles.formElement}>
+            <label htmlFor="password">Password</label>
             <input type="text" name="password" onChange={handleChange} />
-          </label>
-          <p>
+          </div>
+
+          <div className={styles.formElement}>
             <button>Submit</button>
-          </p>
+          </div>
         </div>
       </form>
     </>

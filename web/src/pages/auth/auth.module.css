@@ -1,14 +1,31 @@
-.formContainer label {
-  margin-right: 10px;
-  width: 50%;
-  text-align: end;
+.formContainer {
+  margin: auto;
+  max-width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.formContainer p {
+.formContainer button {
+  margin: auto;
+}
+
+.formElement {
   width: 100%;
-  text-align: center;
+  margin: 25px 0;
 }
 
-.formContainer input {
-  width: 20%;
+.formElement label {
+  width: 100px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.formElement button {
+  margin: auto;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #3078ff;
 }
