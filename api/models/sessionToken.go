@@ -6,7 +6,7 @@ import (
 
 type SessionToken struct {
 	Id        string    `json:"id"`
-	Token     string    `json:"token"`
 	UserId    string    `json:"user_id"`
+	Token     string    `json:"token"`
 	CreatedAt time.Time `json:"created_at"`
 }
