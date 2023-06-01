@@ -35,7 +35,6 @@ func GenerateToken(user models.User) (string, error) {
 
 func ValidateToken(tokenString string) (*CustomClaims, error) {
 	var customClaims CustomClaims
-
 	parsedToken, err := jwt.ParseWithClaims(tokenString, &customClaims, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})

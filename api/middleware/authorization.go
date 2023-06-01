@@ -7,11 +7,8 @@ import (
 )
 
 func Authorization(c *fiber.Ctx) error {
-	fmt.Println("checking cookies...")
-
 	authCookie := c.Cookies("auth")
 	fmt.Println(authCookie)
-
 	c.Next()
 	return nil
 }

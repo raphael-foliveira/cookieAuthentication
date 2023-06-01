@@ -22,7 +22,6 @@ func Connect() {
 		os.Getenv("POSTGRES_USER"), os.Getenv("POSTGRES_PASSWORD"),
 		os.Getenv("POSTGRES_DB"),
 	)
-
 	Db, err = sql.Open("postgres", connStr)
 	if err != nil {
 		panic(err)

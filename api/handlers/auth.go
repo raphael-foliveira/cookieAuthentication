@@ -40,7 +40,6 @@ func Register(c *fiber.Ctx) error {
 func Login(c *fiber.Ctx) error {
 	var userLoginData UserLogin
 	fmt.Println("handling user login")
-
 	err := c.BodyParser(&userLoginData)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
