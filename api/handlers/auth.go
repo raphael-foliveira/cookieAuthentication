@@ -69,7 +69,7 @@ func Login(c *fiber.Ctx) error {
 		Expires:  time.Now().Add(24 * time.Hour),
 		HTTPOnly: true,
 	})
-	return c.Status(200).JSON(fiber.Map{
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Login successful",
 	})
 }
@@ -90,9 +90,9 @@ func GetUser(c *fiber.Ctx) error {
 	user, err := database.FindUserBySessionToken(userCookie)
 	if err != nil {
 		fmt.Println(err)
-		return c.Status(404).JSON(fiber.Map{
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "User not found",
 		})
 	}
-	return c.Status(200).JSON(user)
+	return c.Status(fiber.StatusOK).JSON(user)
 }
